@@ -1,0 +1,83 @@
+---
+title: "Bird Count Analysis"
+output: html_document
+---
+
+```{r setup, include=F}
+knitr::opts_chunk$set(echo = F, comment = '')
+```
+
+## This is an awesome bird count paper
++ with bullet points
++ and more bullet points
+
+```{r load_data, cache=T, message=F}
+
+library(xlsx)
+file_name = "HistoricalResultsByCount.xls"
+sheet_name = 'HistoricalResultsByCount'
+# set the index of rows to read
+row_index = 232:1141
+# set the column index
+col_index = 6:124
+count_data = read.xlsx(file_name, sheetName =sheet_name, rowIndex = row_index, colIndex = col_index)
+```
+
+
+
+```{r clean_data}
+# in the species row, maps NULL species to species from previous row
+# this is due to the nest table input
+d = count_data
+for (i in 1:(nrow(d))){
+  if (is.na(d[i, 1])){
+    d[i, 1] = d[i-1, 1]
+  }
+}
+# select which columns to actually use from the
+d = d[, c(1, 13, 40:116)]
+# gets the colnames (uses only the year)
+colnames(d) = substr(colnames(d), 2, 5)
+colnames(d)[1:2] = c('species', 'val')
+rownames(d) = paste(d[,1], d[,2], sepc = ':')
+
+# coeces columns to numeric
+for ( i in 3:(ncol(d))){
+  d[,i] = as.numeric(d[, i])
+}
+# fills Nulls with zero
+d[is.na(d)]= 0
+```
+
+
+
+```{r aggredate data}
+# aggreate counts by species with years as columns
+
+counts = aggregate(d[, 3:(ncol(d))], by=list(d$species), FUN=sum, d$val == ' Number:' )
+# set sepcies as row names
+rownames(counts) = counts[,1]
+counts[,1]=NULL
+
+# aggreate hours by species by years
+hours = aggregate(d[, 3:(ncol(d))], by=list(d$species), FUN=sum, d$val == 'Num/Party Hrs.:' )
+# set sepcies as row names
+rownames(hours) = hours[,1]
+hours[,1]=NULL
+
+# re index the rows based on sum counts
+row_index = order(apply(counts, 1, sum), decreasing = T)
+
+counts = counts[row_index,]
+hours = hours[row_index,]
+
+```
+
+```{r show data}
+# show the top of the data set
+print(head(counts)[1:10])
+```
+
+
+
+

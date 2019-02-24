@@ -81,3 +81,34 @@ print(head(counts)[1:10])
 
 
 
+
+```{r load weather data}
+# reads in a csv of weather data requestion from NOAA through https://www.ncdc.noaa.gov/cdo-web/confirmation
+# data is a monthly average
+file_name = 'chs_wx.csv'
+wx_data = read.csv(file_name)
+# filter to rows with only december
+wx_data = wx_data[substr(wx_data$DATE,6, 8) == '12', ]
+# changes the Date to use only the year, (keeping in mind this is the December average)
+wx_data$DATE = as.numeric(substr(wx_data$DATE, 1, 4))
+
+```
+
+
+
+
+```
+
+```{r noaa weather data dowload, eval=F}
+# uses noaa API to download weather rirectly
+library(rnoaa)
+# look noaa stations at https://www.ncdc.noaa.gov/cdo-web/datatools/findstation
+token = scan("noaa_api_token", what="character", sep=NULL)
+datasetid = 'GHCND'
+stationid = 'GHCND:US1SCCR0096'
+startdate = '1939-01-01'
+enddate = '2019-01-01'
+wx_data = ncdc(datasetid = datasetid, stationid=stationid , startdate=startdate, enddate=enddate, token = token)
+
+
+```

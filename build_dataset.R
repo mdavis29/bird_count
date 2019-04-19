@@ -64,11 +64,11 @@ merged_chs = merge(wx_chs, counts_chs, all=F)
 #### SAVANNAH SECTION 
 
 # load the savannah river site data 
-print('loading savannah river count data ...')
-file_name = "./data/HistoricalResultsByCount_svr.xls"
+print('loading hilton head count data ...')
+file_name = "./data/HistoricalResultsByCount_hh.xls"
 sheet_name = 'HistoricalResultsByCount'
 # set the index of rows to read
-row_index = 142:724
+row_index = 183:1107
 # set the column index
 col_index = 6:100
 count_data = read.xlsx(file_name, sheetName =sheet_name, rowIndex = row_index, colIndex = col_index)
@@ -116,13 +116,10 @@ wx_svr$year = as.integer(substr(wx_svr$DATE, 1, 4))
 merged_svr= merge(wx_svr, counts_svr, all=F)
 
 
-final_data = merge(merged_svr, merged_chs, all=F, by=c('species', 'year'))
+final_data = merge(merged_svr, merged_chs, all=T)
 
 print('writting data to final_data.csv')
 write.csv(final_data, file='final_data.csv')
 
 
-x = final_data$count.x - final_data$count.y 
-final_data$tavg_diff  =  final_data$TAVG.x - final_data$TAVG.y 
-plot(x,y )
 

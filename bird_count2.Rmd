@@ -1,0 +1,81 @@
+---
+sdtitle: "Bird_Counts"
+author: "Lyndsey Davis"
+date: "March 2, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+```
+
+```{r load data}
+d = read.csv('final_data.csv')
+colnames(d)
+```
+```{r}
+library(reshape)
+counts = cast(d,  species + year ~ STATION, value='count', fun.aggregate=sum)
+temps = cast(d,  species + year ~ STATION, value="TAVG", fun.aggregate=sum)
+```
+
+
+
+#### Does Average Tempurate Predict Count Difference, Ajdusting for effort.
+
+
+
+
+```{r, echo=F}
+build_models = function(d){
+  species = as.character(unique(df$species))
+  n = length(species)
+  output = data.frame()
+  for (i in 1:n){
+    temp_name = species[i]
+    # subset to only one species
+    temp_data = d[d$species == temp_name & d$year >=1960,]
+    # split the count in seperate columns for sites
+    if (nrow(temp_data > 20)){
+       counts = cast(temp_data,  species + year ~ NAME, value='count', fun.aggregate=sum)
+       effort = cast(temp_data,  species + year ~ NAME, value="Num.Party.Hrs..", fun.aggregate=sum)
+       
+       print(temp_name)
+      # create the count difference
+       if (ncol(counts) == 4){
+        counts$count_diff =  counts[, 3] - counts[,4]
+        effort$effort_diff = effort[,3] - effort[,4]
+        # remane columns
+        #print(colnames(counts)[3:4])
+        colnames(counts)[3:4] = c('count_chs', 'count_hh')
+        # split temps into seperate columns per site
+        temps = cast(temp_data,  species + year ~NAME , value="TAVG", fun.aggregate=mean)
+        # rename columns
+        colnames(temps)[3:4] =   c('temp_chs', 'temp_hh')
+        # join data by year
+        temp_data_joined = merge(counts, temps, by='year',   all=F)
+        temp_data_joined = merge(temp_data_joined, effort, by='year',   all=F)
+        # filter out rows where there are no obs are either site
+        temp_data_joined = temp_data_joined[temp_data_joined$count_chs >0 | temp_data_joined$count_hh > 0 ,]
+        # if there are at least 20 years, build a model using temp and chs to predict count diff
+          if (nrow(temp_data_joined) > 5){
+            fit <- glm(count_diff~temp_chs + effort_diff , temp_data_joined, family = 'gaussian')
+            vals = summary(fit)$coefficients[2, ]
+              temp_output = data.frame(t(vals), species= temp_name)
+              if (temp_output['Pr...t..'] < 0.05){
+                output = rbind(output, temp_output)
+              }
+            }
+       }
+    }
+  }
+  output = output[order(output$Estimate), ]
+  return(output)
+  }
+
+bird_models = build_models(d)
+
+print(bird_models)
+```
+
+

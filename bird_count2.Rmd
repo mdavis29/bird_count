@@ -1,32 +1,34 @@
 ---
-sdtitle: "Bird_Counts"
 author: "Lyndsey Davis"
 date: "March 2, 2019"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
+sdtitle: Bird_Counts
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F)
+knitr::opts_chunk$set(echo = F, comment = '')
+library(reshape)
 ```
 
 ```{r load data}
 d = read.csv('final_data.csv')
-colnames(d)
 ```
-```{r}
-library(reshape)
-counts = cast(d,  species + year ~ STATION, value='count', fun.aggregate=sum)
-temps = cast(d,  species + year ~ STATION, value="TAVG", fun.aggregate=sum)
-```
-
-
-
-#### Does Average Tempurate Predict Count Difference, Ajdusting for effort.
-
-
-
 
 ```{r, echo=F}
+print('total number of unique species at Charleston')
+length(unique(d[d$NAME == 'CHARLESTON INTL. AIRPORT, SC US', "species"]))
+print('total number of unqiue species at Hilton Head' )
+length(unique(d[d$NAME == 'SAVANNAH INTERNATIONAL AIRPORT, GA US', "species"]))
+
+```
+
+#### Count Difference predictions by Tempurature 
+
++ regression formulate : count_diff~temp_chs + effort_diff 
+
+```{r, count difference regression,  echo=F, warning=F}
 build_models = function(d){
   species = as.character(unique(d$species))
   n = length(species)
@@ -36,11 +38,11 @@ build_models = function(d){
     # subset to only one species
     temp_data = d[d$species == temp_name & d$year >=1960,]
     # split the count in seperate columns for sites
-    if (nrow(temp_data > 20)){
+    if (nrow(temp_data) > 20){
        counts = cast(temp_data,  species + year ~ NAME, value='count', fun.aggregate=sum)
        effort = cast(temp_data,  species + year ~ NAME, value="Num.Party.Hrs..", fun.aggregate=sum)
        
-       print(temp_name)
+       #print(temp_name)
       # create the count difference
        if (ncol(counts) == 4){
         counts$count_diff =  counts[, 3] - counts[,4]
@@ -75,13 +77,19 @@ build_models = function(d){
 
 bird_models = build_models(d)
 
-print(bird_models)
+rownames(bird_models) = gsub('\n', ' ', bird_models$species)
+bird_models$species = NULL
+knitr::kable(bird_models)
+
 ```
 
 
+### Total Bird Count at Both Sites by Tempurature Average in Charleston
+
+ + regression formula : count_chs +  count_hh ~ temp_chs + effort_total
 
 
-```{r}
+```{r,total count temp regression, echo=F, warning=F}
 build_models = function(d){
   species = as.character(unique(d$species))
   n = length(species)
@@ -91,15 +99,15 @@ build_models = function(d){
     # subset to only one species
     temp_data = d[d$species == temp_name & d$year >=1960,]
     # split the count in seperate columns for sites
-    if (nrow(temp_data > 20)){
+    if (nrow(temp_data) > 20){
        counts = cast(temp_data,  species + year ~ NAME, value='count', fun.aggregate=sum)
        effort = cast(temp_data,  species + year ~ NAME, value="Num.Party.Hrs..", fun.aggregate=sum)
        
-       print(temp_name)
+       #print(temp_name)
       # create the count difference
        if (ncol(counts) == 4){
         counts$count_diff =  counts[, 3] - counts[,4]
-        effort$effort_diff = effort[,3] - effort[,4]
+        effort$effort_total = effort[,3] + effort[,4]
         # remane columns
         #print(colnames(counts)[3:4])
         colnames(counts)[3:4] = c('count_chs', 'count_hh')
@@ -114,7 +122,7 @@ build_models = function(d){
         temp_data_joined = temp_data_joined[temp_data_joined$count_chs >0 | temp_data_joined$count_hh > 0 ,]
         # if there are at least 20 years, build a model using temp and chs to predict count diff
           if (nrow(temp_data_joined) > 5){
-            fit <- glm(count_chs +  count_hh ~ temp_chs, temp_data_joined, family = 'gaussian')
+            fit <- glm(count_chs +  count_hh ~ temp_chs + effort_total, temp_data_joined, family = 'gaussian')
             vals = summary(fit)$coefficients[2, ]
               temp_output = data.frame(t(vals), species= temp_name)
               if (temp_output['Pr...t..'] < 0.05){
@@ -130,5 +138,9 @@ build_models = function(d){
 
 bird_models = build_models(d)
 
-print(bird_models)
+rownames(bird_models) = gsub('\n', ' ', bird_models$species)
+bird_models$species = NULL
+knitr::kable(bird_models)
+
+
 ```

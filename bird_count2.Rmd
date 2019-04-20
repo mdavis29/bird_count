@@ -2,8 +2,8 @@
 author: "Lyndsey Davis"
 date: "March 2, 2019"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 sdtitle: Bird_Counts
 ---
 
@@ -26,7 +26,11 @@ length(unique(d[d$NAME == 'SAVANNAH INTERNATIONAL AIRPORT, GA US', "species"]))
 
 #### Count Difference predictions by Tempurature 
 
-+ regression formulate : count_diff~temp_chs + effort_diff 
++ regression formulate : count_diff ~ temp_chs + effort_diff 
++ species with less that that were seen on less than 20 years at either site were filtered out
++ years where species were not seen at either site were filtered out
++ only models with p < 0.05 were reported in table 
++ effort_diff =  Num.Party.Hrs.. in Chs - Num.Party.Hrs.. in HH 
 
 ```{r, count difference regression,  echo=F, warning=F}
 build_models = function(d){
@@ -79,6 +83,7 @@ bird_models = build_models(d)
 
 rownames(bird_models) = gsub('\n', ' ', bird_models$species)
 bird_models$species = NULL
+colnames(bird_models) = c('coef', 'stder', 't-val', 'p-val')
 knitr::kable(bird_models)
 
 ```
@@ -87,7 +92,10 @@ knitr::kable(bird_models)
 ### Total Bird Count at Both Sites by Tempurature Average in Charleston
 
  + regression formula : count_chs +  count_hh ~ temp_chs + effort_total
-
+ + species with less that that were seen on less than 20 years at either site were filtered out
+ + years where species were not seen at either site were filtered out'
+ + only models with p < 0.05 were reported in table 
+ + effort_total =  Num.Party.Hrs.. in Chs + Num.Party.Hrs.. in HH 
 
 ```{r,total count temp regression, echo=F, warning=F}
 build_models = function(d){
@@ -140,6 +148,7 @@ bird_models = build_models(d)
 
 rownames(bird_models) = gsub('\n', ' ', bird_models$species)
 bird_models$species = NULL
+colnames(bird_models) = c('coef', 'stder', 't-val', 'p-val')
 knitr::kable(bird_models)
 
 

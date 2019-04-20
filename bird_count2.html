@@ -132,94 +132,98 @@ $(document).ready(function () {
 <div id="count-difference-predictions-by-tempurature" class="section level4">
 <h4>Count Difference predictions by Tempurature</h4>
 <ul>
-<li><p>regression formulate : count_diff~temp_chs + effort_diff</p>
+<li>regression formulate : count_diff ~ temp_chs + effort_diff</li>
+<li>species with less that that were seen on less than 20 years at either site were filtered out</li>
+<li>years where species were not seen at either site were filtered out</li>
+<li>only models with p &lt; 0.05 were reported in table</li>
+<li><p>effort_diff = Num.Party.Hrs.. in Chs - Num.Party.Hrs.. in HH</p>
 <table>
 <thead>
 <tr class="header">
-<th align="right">Es</th>
-<th>timate Std</th>
-<th>..Error t</th>
-<th>.value Pr</th>
-<th align="left">…t..</th>
+<th></th>
+<th align="center">coef</th>
+<th align="left">stder</th>
+<th align="center">t-val</th>
+<th align="center">p-val</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">American Kestrel [Falco sparverius]</td>
-<td>-6.136487</td>
-<td>1.825581</td>
-<td>-3.361388</td>
-<td align="left">0.0014448</td>
+<td>American Kestrel [Falco sparverius]</td>
+<td align="center">-6.136487</td>
+<td align="left">1.825581</td>
+<td align="center">-3.361388</td>
+<td align="center">0.0014448</td>
 </tr>
 <tr class="even">
-<td align="right">Hermit Thrush [Catharus guttatus]</td>
-<td>-5.605877</td>
-<td>2.382264</td>
-<td>-2.353172</td>
-<td align="left">0.0223569</td>
+<td>Hermit Thrush [Catharus guttatus]</td>
+<td align="center">-5.605877</td>
+<td align="left">2.382264</td>
+<td align="center">-2.353172</td>
+<td align="center">0.0223569</td>
 </tr>
 <tr class="odd">
-<td align="right">Tree Swallow [Tachycineta bicolor]</td>
-<td>-5.298057</td>
-<td>2.386032</td>
-<td>-2.220447</td>
-<td align="left">0.0312467</td>
+<td>Tree Swallow [Tachycineta bicolor]</td>
+<td align="center">-5.298057</td>
+<td align="left">2.386032</td>
+<td align="center">-2.220447</td>
+<td align="center">0.0312467</td>
 </tr>
 <tr class="even">
-<td align="right">European Starling [Sturnus vulgaris]</td>
-<td>-5.070040</td>
-<td>1.791478</td>
-<td>-2.830088</td>
-<td align="left">0.0065595</td>
+<td>European Starling [Sturnus vulgaris]</td>
+<td align="center">-5.070040</td>
+<td align="left">1.791478</td>
+<td align="center">-2.830088</td>
+<td align="center">0.0065595</td>
 </tr>
 <tr class="odd">
-<td align="right">Red-headed Woodpecker [Melanerpes erythrocephalus]</td>
-<td>-5.027179</td>
-<td>2.216879</td>
-<td>-2.267683</td>
-<td align="left">0.0274507</td>
+<td>Red-headed Woodpecker [Melanerpes erythrocephalus]</td>
+<td align="center">-5.027179</td>
+<td align="left">2.216879</td>
+<td align="center">-2.267683</td>
+<td align="center">0.0274507</td>
 </tr>
 <tr class="even">
-<td align="right">Spotted/Eastern Towhee (Rufous-sided Towhee) [Pipilo maculatus/erythrophthalmus]</td>
-<td>-4.419855</td>
-<td>1.901985</td>
-<td>-2.323812</td>
-<td align="left">0.0293283</td>
+<td>Spotted/Eastern Towhee (Rufous-sided Towhee) [Pipilo maculatus/erythrophthalmus]</td>
+<td align="center">-4.419855</td>
+<td align="left">1.901985</td>
+<td align="center">-2.323812</td>
+<td align="center">0.0293283</td>
 </tr>
 <tr class="odd">
-<td align="right">Killdeer [Charadrius vociferus]</td>
-<td>-4.209208</td>
-<td>1.954112</td>
-<td>-2.154027</td>
-<td align="left">0.0358045</td>
+<td>Killdeer [Charadrius vociferus]</td>
+<td align="center">-4.209208</td>
+<td align="left">1.954112</td>
+<td align="center">-2.154027</td>
+<td align="center">0.0358045</td>
 </tr>
 <tr class="even">
-<td align="right">Hooded Merganser [Lophodytes cucullatus]</td>
-<td>-3.983838</td>
-<td>1.849576</td>
-<td>-2.153920</td>
-<td align="left">0.0358133</td>
+<td>Hooded Merganser [Lophodytes cucullatus]</td>
+<td align="center">-3.983838</td>
+<td align="left">1.849576</td>
+<td align="center">-2.153920</td>
+<td align="center">0.0358133</td>
 </tr>
 <tr class="odd">
-<td align="right">Red-tailed Hawk [Buteo jamaicensis]</td>
-<td>-3.810288</td>
-<td>1.305498</td>
-<td>-2.918648</td>
-<td align="left">0.0051494</td>
+<td>Red-tailed Hawk [Buteo jamaicensis]</td>
+<td align="center">-3.810288</td>
+<td align="left">1.305498</td>
+<td align="center">-2.918648</td>
+<td align="center">0.0051494</td>
 </tr>
 <tr class="even">
-<td align="right">Eastern Phoebe [Sayornis phoebe]</td>
-<td>-3.039141</td>
-<td>1.166709</td>
-<td>-2.604883</td>
-<td align="left">0.0119010</td>
+<td>Eastern Phoebe [Sayornis phoebe]</td>
+<td align="center">-3.039141</td>
+<td align="left">1.166709</td>
+<td align="center">-2.604883</td>
+<td align="center">0.0119010</td>
 </tr>
 <tr class="odd">
-<td align="right">Ruby-throated Hummingbird [Archilochus colubris]</td>
-<td>11.545701</td>
-<td>4.312156</td>
-<td>2.677478</td>
-<td align="left">0.0148949</td>
+<td>Ruby-throated Hummingbird [Archilochus colubris]</td>
+<td align="center">11.545701</td>
+<td align="left">4.312156</td>
+<td align="center">2.677478</td>
+<td align="center">0.0148949</td>
 </tr>
 </tbody>
 </table></li>
@@ -228,115 +232,119 @@ $(document).ready(function () {
 <div id="total-bird-count-at-both-sites-by-tempurature-average-in-charleston" class="section level3">
 <h3>Total Bird Count at Both Sites by Tempurature Average in Charleston</h3>
 <ul>
-<li><p>regression formula : count_chs + count_hh ~ temp_chs + effort_total</p>
+<li>regression formula : count_chs + count_hh ~ temp_chs + effort_total</li>
+<li>species with less that that were seen on less than 20 years at either site were filtered out</li>
+<li>years where species were not seen at either site were filtered out’</li>
+<li>only models with p &lt; 0.05 were reported in table</li>
+<li><p>effort_total = Num.Party.Hrs.. in Chs + Num.Party.Hrs.. in HH</p>
 <table>
 <thead>
 <tr class="header">
-<th align="right">E</th>
-<th>stimate Std</th>
-<th>..Error t</th>
-<th>.value Pr</th>
-<th align="left">…t..</th>
+<th></th>
+<th align="center">coef</th>
+<th align="left">stder</th>
+<th align="center">t-val</th>
+<th align="center">p-val</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">House Finch [Haemorhous mexicanus]</td>
-<td>-10.219578</td>
-<td>4.638817</td>
-<td>-2.203057</td>
-<td align="left">0.0383624</td>
+<td>House Finch [Haemorhous mexicanus]</td>
+<td align="center">-10.219578</td>
+<td align="left">4.638817</td>
+<td align="center">-2.203057</td>
+<td align="center">0.0383624</td>
 </tr>
 <tr class="even">
-<td align="right">Wilson’s Snipe [Gallinago delicata]</td>
-<td>-8.481864</td>
-<td>3.627671</td>
-<td>-2.338102</td>
-<td align="left">0.0360156</td>
+<td>Wilson’s Snipe [Gallinago delicata]</td>
+<td align="center">-8.481864</td>
+<td align="left">3.627671</td>
+<td align="center">-2.338102</td>
+<td align="center">0.0360156</td>
 </tr>
 <tr class="odd">
-<td align="right">Double-crested Cormorant [Phalacrocorax auritus]</td>
-<td>2.864667</td>
-<td>1.389207</td>
-<td>2.062087</td>
-<td align="left">0.0441170</td>
+<td>Double-crested Cormorant [Phalacrocorax auritus]</td>
+<td align="center">2.864667</td>
+<td align="left">1.389207</td>
+<td align="center">2.062087</td>
+<td align="center">0.0441170</td>
 </tr>
 <tr class="even">
-<td align="right">Ring-billed Gull [Larus delawarensis]</td>
-<td>3.743431</td>
-<td>1.335185</td>
-<td>2.803679</td>
-<td align="left">0.0070445</td>
+<td>Ring-billed Gull [Larus delawarensis]</td>
+<td align="center">3.743431</td>
+<td align="left">1.335185</td>
+<td align="center">2.803679</td>
+<td align="center">0.0070445</td>
 </tr>
 <tr class="odd">
-<td align="right">Yellow-bellied Sapsucker [Sphyrapicus varius]</td>
-<td>4.047161</td>
-<td>1.468136</td>
-<td>2.756666</td>
-<td align="left">0.0079908</td>
+<td>Yellow-bellied Sapsucker [Sphyrapicus varius]</td>
+<td align="center">4.047161</td>
+<td align="left">1.468136</td>
+<td align="center">2.756666</td>
+<td align="center">0.0079908</td>
 </tr>
 <tr class="even">
-<td align="right">Royal Tern [Thalasseus maximus]</td>
-<td>4.381803</td>
-<td>2.052996</td>
-<td>2.134345</td>
-<td align="left">0.0375489</td>
+<td>Royal Tern [Thalasseus maximus]</td>
+<td align="center">4.381803</td>
+<td align="left">2.052996</td>
+<td align="center">2.134345</td>
+<td align="center">0.0375489</td>
 </tr>
 <tr class="odd">
-<td align="right">Common Grackle [Quiscalus quiscula]</td>
-<td>4.446879</td>
-<td>1.792274</td>
-<td>2.481137</td>
-<td align="left">0.0163037</td>
+<td>Common Grackle [Quiscalus quiscula]</td>
+<td align="center">4.446879</td>
+<td align="left">1.792274</td>
+<td align="center">2.481137</td>
+<td align="center">0.0163037</td>
 </tr>
 <tr class="even">
-<td align="right">Ridgway’s/Mangrove/Clapper Rail [Rallus obsoletus/longirostris/crepitans]</td>
-<td>4.469403</td>
-<td>1.946411</td>
-<td>2.296228</td>
-<td align="left">0.0256455</td>
+<td>Ridgway’s/Mangrove/Clapper Rail [Rallus obsoletus/longirostris/crepitans]</td>
+<td align="center">4.469403</td>
+<td align="left">1.946411</td>
+<td align="center">2.296228</td>
+<td align="center">0.0256455</td>
 </tr>
 <tr class="odd">
-<td align="right">American Oystercatcher [Haematopus palliatus]</td>
-<td>4.562769</td>
-<td>2.114323</td>
-<td>2.158028</td>
-<td align="left">0.0354761</td>
+<td>American Oystercatcher [Haematopus palliatus]</td>
+<td align="center">4.562769</td>
+<td align="left">2.114323</td>
+<td align="center">2.158028</td>
+<td align="center">0.0354761</td>
 </tr>
 <tr class="even">
-<td align="right">Black-and-white Warbler [Mniotilta varia]</td>
-<td>4.638972</td>
-<td>1.719426</td>
-<td>2.697977</td>
-<td align="left">0.0093843</td>
+<td>Black-and-white Warbler [Mniotilta varia]</td>
+<td align="center">4.638972</td>
+<td align="left">1.719426</td>
+<td align="center">2.697977</td>
+<td align="center">0.0093843</td>
 </tr>
 <tr class="odd">
-<td align="right">Anhinga [Anhinga anhinga]</td>
-<td>4.886787</td>
-<td>2.384832</td>
-<td>2.049111</td>
-<td align="left">0.0456125</td>
+<td>Anhinga [Anhinga anhinga]</td>
+<td align="center">4.886787</td>
+<td align="left">2.384832</td>
+<td align="center">2.049111</td>
+<td align="center">0.0456125</td>
 </tr>
 <tr class="even">
-<td align="right">Horned Grebe [Podiceps auritus]</td>
-<td>4.992633</td>
-<td>1.976703</td>
-<td>2.525738</td>
-<td align="left">0.0145705</td>
+<td>Horned Grebe [Podiceps auritus]</td>
+<td align="center">4.992633</td>
+<td align="left">1.976703</td>
+<td align="center">2.525738</td>
+<td align="center">0.0145705</td>
 </tr>
 <tr class="odd">
-<td align="right">Palm Warbler [Setophaga palmarum]</td>
-<td>5.265287</td>
-<td>2.224641</td>
-<td>2.366803</td>
-<td align="left">0.0216278</td>
+<td>Palm Warbler [Setophaga palmarum]</td>
+<td align="center">5.265287</td>
+<td align="left">2.224641</td>
+<td align="center">2.366803</td>
+<td align="center">0.0216278</td>
 </tr>
 <tr class="even">
-<td align="right">Marbled Godwit [Limosa fedoa]</td>
-<td>5.849865</td>
-<td>2.747958</td>
-<td>2.128804</td>
-<td align="left">0.0382199</td>
+<td>Marbled Godwit [Limosa fedoa]</td>
+<td align="center">5.849865</td>
+<td align="left">2.747958</td>
+<td align="center">2.128804</td>
+<td align="center">0.0382199</td>
 </tr>
 </tbody>
 </table></li>
